@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tokens en Python</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content-wrapper {
+            background: #f5f5f5;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .tema-titulo {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .tema-titulo h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .tema-titulo p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .section h3 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .code-container {
+            background: #2d3748;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-x: auto;
+            margin-top: 15px;
+        }
+
+        .code-container pre {
+            margin: 0;
+            color: #e2e8f0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .code-container code {
+            display: block;
+        }
+
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; }
+        .number { color: #bd93f9; }
+
+        .glosario-item {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glosario-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .glosario-item h4 {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .glosario-item p {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .parametros {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .parametros strong {
+            color: #667eea;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .parametros code {
+            background: #2d3748;
+            color: #50fa7b;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .tema-titulo h2 {
+                font-size: 1.5em;
+            }
+
+            .section h3 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Realizado por: Ian Martin Aguilar Alejo</h1>
+            <p>Lenguaje Natural con Python</p>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="tema-titulo">
+                <h2>Tokens en Python</h2>
+                <p>Descomposición de texto en unidades básicas para análisis</p>
+            </div>
+
+            <div class="section">
+                <h3>📝 Código del Ejemplo</h3>
+                <div class="code-container">
+                    <pre><code><span class="comment">"""Tokens en python, especialmente en lenguaje natural
+se refiere a la descomposición de un texto: Canción, frase, archivo
+con el objetivo de poder analizar el lenguaje escrito por ejemplo:
+contar palabras, contar la longitud de las palabras, descubrir el sentimiento
+plasmado en el texto introducido, etc."""</span>
+
+texto=<span class="string">"Hola, bienvenido al curso de Lenguaje Natural con Python"</span>
+
+<span class="comment">#limpieza básica</span>
+texto_limpio=texto.<span class="function">replace</span>(<span class="string">","</span>,<span class="string">""</span>).<span class="function">replace</span>(<span class="string">"."</span>,<span class="string">""</span>)
+
+<span class="comment">#Se reemplazan los signos por nada</span>
+tokens=texto_limpio.<span class="function">split</span>()
+
+<span class="comment">#divide un texto en partes separadas por un espacio por defecto y devuelve una lista</span>
+
+<span class="function">print</span>(<span class="string">"texto original"</span>, texto)
+<span class="function">print</span>(<span class="string">"tokens"</span>, tokens)
+<span class="function">print</span>(<span class="string">"Número de palabras"</span>, <span class="function">len</span>(tokens))</code></pre>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>📚 Glosario de Funciones y Conceptos</h3>
+
+                <div class="glosario-item">
+                    <h4>Tokenización</h4>
+                    <p>Proceso fundamental en el procesamiento de lenguaje natural que consiste en descomponer un texto en unidades más pequeñas llamadas tokens. Generalmente, cada token es una palabra, pero también puede ser un signo de puntuación o un número. Es el primer paso para analizar y procesar texto.</p>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>Token</h4>
+                    <p>Unidad básica de texto resultante del proceso de tokenización. En la mayoría de los casos, un token es una palabra individual. Los tokens son la base para realizar análisis más complejos como conteo de palabras, análisis de sentimientos, frecuencia de términos, etc.</p>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>replace()</h4>
+                    <p>Función que reemplaza todas las ocurrencias de un substring por otro. En el contexto de tokenización, se usa para limpiar el texto eliminando signos de puntuación que podrían interferir con el análisis.</p>
+                    <div class="parametros">
+                        <strong>Uso en limpieza de texto:</strong>
+                        <p><code>texto.replace(",", "").replace(".", "")</code></p>
+                        <p>Elimina comas y puntos del texto</p>
+                    </div>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>split()</h4>
+                    <p>Función clave en tokenización que divide una cadena en una lista de subcadenas. Por defecto, utiliza cualquier espacio en blanco (espacios, tabulaciones, saltos de línea) como separador. Devuelve una lista donde cada elemento es un token.</p>
+                    <div class="parametros">
+                        <strong>Comportamiento:</strong>
+                        <p>Sin parámetros: divide por espacios en blanco</p>
+                        <p>Con parámetro: divide por el separador especificado</p>
+                        <p><code>"a,b,c".split(",")</code> devuelve <code>['a', 'b', 'c']</code></p>
+                    </div>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>len()</h4>
+                    <p>Función que devuelve la cantidad de elementos en una secuencia. Cuando se aplica a una lista de tokens, devuelve el número total de palabras en el texto. Es útil para obtener estadísticas básicas del texto.</p>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>Limpieza de texto</h4>
+                    <p>Proceso de preparación del texto antes de tokenizar, que consiste en eliminar o normalizar elementos que no son relevantes para el análisis, como signos de puntuación, caracteres especiales, espacios extra, etc. Es un paso crucial para obtener tokens limpios y útiles.</p>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>Aplicaciones de tokenización</h4>
+                    <p>La tokenización es la base para múltiples tareas de procesamiento de lenguaje natural:</p>
+                    <div class="parametros">
+                        <strong>Usos comunes:</strong>
+                        <p>• Contar palabras en un documento</p>
+                        <p>• Analizar frecuencia de términos</p>
+                        <p>• Determinar longitud de palabras</p>
+                        <p>• Análisis de sentimientos</p>
+                        <p>• Búsqueda de palabras clave</p>
+                        <p>• Procesamiento para machine learning</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

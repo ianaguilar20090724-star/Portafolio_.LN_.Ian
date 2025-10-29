@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis de Sentimientos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content-wrapper {
+            background: #f5f5f5;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .tema-titulo {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .tema-titulo h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .tema-titulo p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .section h3 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .code-container {
+            background: #2d3748;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-x: auto;
+            margin-top: 15px;
+        }
+
+        .code-container pre {
+            margin: 0;
+            color: #e2e8f0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .code-container code {
+            display: block;
+        }
+
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; }
+        .number { color: #bd93f9; }
+
+        .glosario-item {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glosario-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .glosario-item h4 {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .glosario-item p {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .parametros {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .parametros strong {
+            color: #667eea;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .parametros code {
+            background: #2d3748;
+            color: #50fa7b;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .tema-titulo h2 {
+                font-size: 1.5em;
+            }
+
+            .section h3 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Realizado por: Ian Martin Aguilar Alejo</h1>
+            <p>Lenguaje Natural con Python</p>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="tema-titulo">
+                <h2>Análisis de Sentimientos</h2>
+                <p>Determinar si un texto expresa sentimientos positivos o negativos</p>
+            </div>
+
+            <div class="section">
+                <h3>📝 Código del Ejemplo</h3>
+                <div class="code-container">
+                    <pre><code><span class="comment">"""
+Crear una frase larga con palabras repetidas donde se expresen un sentimiento positivo
+y un sentimiento negativo, analizar la frase completa eliminando signos de puntuación,
+optimizando la frase y recorriendo la frase con un ciclo for. Con if contabilizar cuántas
+palabras positivas y cuántas negativas se encontraron y de ahí determinar si la frase
+es negativa o positiva.
+"""</span>
+
+<span class="comment"># Listas de palabras positivas y negativas</span>
+pp = [<span class="string">"bueno"</span>, <span class="string">"bien"</span>, <span class="string">"feliz"</span>, <span class="string">"alegre"</span>, <span class="string">"contento"</span>, <span class="string">"maravilloso"</span>, <span class="string">"bonito"</span>]
+pn= [<span class="string">"feo"</span>, <span class="string">"triste"</span>, <span class="string">"solo"</span>, <span class="string">"aburrido"</span>, <span class="string">"malo"</span>, <span class="string">"horrible"</span>, <span class="string">"muerte"</span>]
+
+<span class="comment"># Solicitar la frase</span>
+f = <span class="function">input</span>(<span class="string">"Ingrese una frase larga con sentimientos : "</span>)
+
+f = f.<span class="function">lower</span>()
+f=f.<span class="function">replace</span>(<span class="string">","</span>,<span class="string">""</span>).<span class="function">replace</span>(<span class="string">":"</span>,<span class="string">""</span>).<span class="function">replace</span>(<span class="string">"."</span>,<span class="string">""</span>).<span class="function">replace</span>(<span class="string">"."</span>,<span class="string">""</span>)
+palabras = f.<span class="function">split</span>()
+
+<span class="comment"># Contadores y listas para mostrar palabras encontradas</span>
+positivas = <span class="number">0</span>
+negativas = <span class="number">0</span>
+palabras_positivas = []
+palabras_negativas = []
+
+<span class="keyword">for</span> palabra <span class="keyword">in</span> palabras:
+    <span class="keyword">if</span> palabra <span class="keyword">in</span> pp:
+        positivas += <span class="number">1</span>
+        palabras_positivas.<span class="function">append</span>(palabra)
+    <span class="keyword">elif</span> palabra <span class="keyword">in</span> pn:
+        negativas += <span class="number">1</span>
+        palabras_negativas.<span class="function">append</span>(palabra)
+
+<span class="function">print</span>(<span class="string">"Análisis de sentimientos:"</span>)
+<span class="function">print</span>(<span class="string">"Palabras positivas encontradas:"</span>, positivas,)
+<span class="function">print</span>(<span class="string">f"Palabras negativas encontradas:"</span>, negativas,)
+
+<span class="keyword">if</span> positivas > negativas:
+    <span class="function">print</span>(<span class="string">"Es un Texto Positivo"</span>)
+<span class="keyword">elif</span> negativas > positivas:
+    <span class="function">print</span>(<span class="string">"Es un Texto Negativo"</span>)</code></pre>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>📚 Glosario de Funciones y Conceptos</h3>
+
+                <div class="glosario-item">
+                    <h4>lower()</h4>
+                    <p>Convierte todos los caracteres de una cadena a minúsculas. Es útil para normalizar el texto y hacer comparaciones sin distinción entre mayúsculas y minúsculas.</p>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>replace()</h4>
+                    <p>Reemplaza todas las ocurrencias de un substring por otro. En este caso se usa para eliminar signos de puntuación del texto.</p>
+                    <div class="parametros">
+                        <strong>Parámetros:</strong>
+                        <p><code>old</code> - El substring a buscar</p>
+                        <p><code>new</code> - El substring que lo reemplazará</p>
+                    </div>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>split()</h4>
+                    <p>Divide una cadena en una lista de palabras. Por defecto, divide el texto usando espacios en blanco como separador.</p>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>append()</h4>
+                    <p>Agrega un elemento al final de una lista. Se utiliza para ir acumulando las palabras positivas y negativas encontradas.</p>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>Ciclo for</h4>
+                    <p>Estructura de control que permite iterar sobre una secuencia de elementos (en este caso, palabras). Se usa para recorrer cada palabra del texto y clasificarla.</p>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>Condicional if/elif</h4>
+                    <p>Estructura de control que permite ejecutar código basándose en condiciones. Se utiliza para verificar si una palabra pertenece a la lista de palabras positivas o negativas, y al final para determinar el sentimiento general del texto.</p>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>Operador in</h4>
+                    <p>Verifica si un elemento está presente en una secuencia (lista, cadena, etc.). Se usa para comprobar si una palabra está en las listas de palabras positivas o negativas.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frecuencia de Palabras</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content-wrapper {
+            background: #f5f5f5;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .tema-titulo {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .tema-titulo h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .tema-titulo p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .section h3 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .code-container {
+            background: #2d3748;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-x: auto;
+            margin-top: 15px;
+        }
+
+        .code-container pre {
+            margin: 0;
+            color: #e2e8f0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .code-container code {
+            display: block;
+        }
+
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; }
+        .number { color: #bd93f9; }
+
+        .glosario-item {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glosario-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .glosario-item h4 {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .glosario-item p {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .parametros {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .parametros strong {
+            color: #667eea;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .parametros code {
+            background: #2d3748;
+            color: #50fa7b;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .tema-titulo h2 {
+                font-size: 1.5em;
+            }
+
+            .section h3 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Realizado por: Ian Martin Aguilar Alejo</h1>
+            <p>Lenguaje Natural con Python</p>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="tema-titulo">
+                <h2>Frecuencia de Palabras</h2>
+                <p>Contar cuántas veces aparece cada palabra en un texto</p>
+            </div>
+
+            <div class="section">
+                <h3>📝 Código del Ejemplo</h3>
+                <div class="code-container">
+                    <pre><code>frase=<span class="string">"Python es divertido y poderoso"</span>
+
+<span class="comment">#1. Limpiar el texto (minúsculas y sin puntuación básica)</span>
+frase_limpia=frase.<span class="function">replace</span>(<span class="string">"."</span>, <span class="string">""</span>).<span class="function">replace</span>(<span class="string">"."</span>, <span class="string">""</span>).<span class="function">lower</span>()
+
+<span class="comment">#2. dividir en palabras (tokenización)</span>
+tokens=frase_limpia.<span class="function">split</span>()
+
+<span class="comment">#3. contar las palabras usando un diccionario</span>
+frecuencia= {}
+<span class="keyword">for</span> palabra <span class="keyword">in</span> tokens:
+    <span class="keyword">if</span> palabra <span class="keyword">in</span> frecuencia:
+        frecuencia[palabra] += <span class="number">1</span>
+    <span class="keyword">else</span>:
+        frecuencia[palabra] = <span class="number">1</span>
+
+<span class="function">print</span>(frecuencia)</code></pre>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>📚 Glosario de Funciones y Conceptos</h3>
+
+                <div class="glosario-item">
+                    <h4>Diccionario (dict)</h4>
+                    <p>Estructura de datos que almacena pares clave-valor. En este caso, la clave es la palabra y el valor es la cantidad de veces que aparece. Se define usando llaves {} y permite acceso rápido a los valores mediante sus claves.</p>
+                    <div class="parametros">
+                        <strong>Ejemplo:</strong>
+                        <p><code>frecuencia = {'python': 1, 'es': 1, 'divertido': 1}</code></p>
+                    </div>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>replace()</h4>
+                    <p>Reemplaza todas las ocurrencias de un substring por otro. Se utiliza para limpiar el texto eliminando signos de puntuación antes de contar las palabras.</p>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>lower()</h4>
+                    <p>Convierte todos los caracteres de una cadena a minúsculas. Esto asegura que "Python" y "python" se cuenten como la misma palabra.</p>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>split()</h4>
+                    <p>Divide una cadena en una lista de palabras (tokens). Es el proceso de tokenización, fundamental en el procesamiento de lenguaje natural.</p>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>Operador in (diccionarios)</h4>
+                    <p>Verifica si una clave existe en el diccionario. Se usa para determinar si ya hemos contado esa palabra anteriormente.</p>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>Acceso a diccionarios</h4>
+                    <p>Se accede a los valores del diccionario usando corchetes con la clave: <code>diccionario[clave]</code>. Si la clave no existe y se intenta acceder, se genera un error, por eso primero verificamos con <code>in</code>.</p>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>Incremento (+=)</h4>
+                    <p>Operador que incrementa el valor de una variable. <code>frecuencia[palabra] += 1</code> es equivalente a <code>frecuencia[palabra] = frecuencia[palabra] + 1</code>.</p>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>Análisis de frecuencia</h4>
+                    <p>Técnica de procesamiento de lenguaje natural que consiste en contar cuántas veces aparece cada palabra en un texto. Es útil para identificar términos importantes, palabras clave y patrones en el lenguaje.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

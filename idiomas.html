@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traductor de Texto</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .back-button {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-bottom: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .content-wrapper {
+            background: #f5f5f5;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .tema-titulo {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .tema-titulo h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .tema-titulo p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .section h3 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .code-container {
+            background: #2d3748;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-x: auto;
+            margin-top: 15px;
+        }
+
+        .code-container pre {
+            margin: 0;
+            color: #e2e8f0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .glosario-item {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glosario-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .glosario-item h4 {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .glosario-item p {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .language-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .language-card {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #667eea;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .language-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .language-card .flag {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .language-card .key {
+            background: #667eea;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: bold;
+            display: inline-block;
+            margin: 10px 0;
+        }
+
+        .language-card .code {
+            background: #475569;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin-top: 5px;
+            display: inline-block;
+        }
+
+        .flow-diagram {
+            background: linear-gradient(135deg, #e0e7ff 0%, #dbeafe 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .flow-step {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .flow-step .number {
+            background: #667eea;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .flow-step .text {
+            color: #1e293b;
+        }
+
+        .info-box {
+            background: #e0e7ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .info-box strong {
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .warning-box {
+            background: #fef3c7;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border-left: 4px solid #f59e0b;
+        }
+
+        .warning-box strong {
+            color: #d97706;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .dict-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .dict-table th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .dict-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e7ff;
+            font-family: 'Courier New', monospace;
+        }
+
+        .dict-table tr:nth-child(even) {
+            background: #f7fafc;
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .tema-titulo h2 {
+                font-size: 1.5em;
+            }
+
+            .section h3 {
+                font-size: 1.5em;
+            }
+
+            .language-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-button">← Volver al Catálogo</a>
+        
+        <div class="header">
+            <h1>Realizado por: Ian Martin Aguilar Alejo</h1>
+            <p>Especialidad de IA del CBTIS 144</p>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="tema-titulo">
+                <h2>🌐 Traductor de Texto Multiidioma</h2>
+                <p>Traducción automática usando deep-translator</p>
+            </div>
+
+            <div class="section">
+                <h3>🗣️ Idiomas Disponibles</h3>
+                <div class="language-grid">
+                    <div class="language-card">
+                        <div class="flag">🇬🇧</div>
+                        <h4>Inglés</h4>
+                        <div class="key">I</div>
+                        <div class="code">en</div>
+                    </div>
+                    <div class="language-card">
+                        <div class="flag">🇫🇷</div>
+                        <h4>Francés</h4>
+                        <div class="key">F</div>
+                        <div class="code">fr</div>
+                    </div>
+                    <div class="language-card">
+                        <div class="flag">🇩🇪</div>
+                        <h4>Alemán</h4>
+                        <div class="key">A</div>
+                        <div class="code">de</div>
+                    </div>
+                    <div class="language-card">
+                        <div class="flag">🇮🇹</div>
+                        <h4>Italiano</h4>
+                        <div class="key">Y</div>
+                        <div class="code">it</div>
+                    </div>
+                    <div class="language-card">
+                        <div class="flag">🇵🇹</div>
+                        <h4>Portugués</h4>
+                        <div class="key">P</div>
+                        <div class="code">pt</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>🔄 Flujo del Programa</h3>
+                <div class="flow-diagram">
+                    <div class="flow-step">
+                        <div class="number">1</div>
+                        <div class="text"><strong>Entrada:</strong> Usuario escribe el texto a traducir</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="number">2</div>
+                        <div class="text"><strong>Selección:</strong> Usuario elige el idioma de destino (I, F, A, Y, P)</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="number">3</div>
+                        <div class="text"><strong>Conversión:</strong> Programa convierte la tecla a código de idioma</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="number">4</div>
+                        <div class="text"><strong>Traducción:</strong> GoogleTranslator procesa el texto</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="number">5</div>
+                        <div class="text"><strong>Resultado:</strong> Muestra la traducción al usuario</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>📝 Código del Ejemplo</h3>
+                <div class="code-container">
+                    <pre>
+from deep_translator import GoogleTranslator
+
+def traductor():
+    print("================")
+    print("Traductor Simple")
+    print("================")
+    print("")
+    
+    # Solicitar texto a traducir
+    t = input("Escribe el texto que desees traducir: ")
+    print("")
+    
+    # Mostrar opciones de idiomas
+    print("Presiona una de las teclas para seleccionar la opción")
+    print("I = Inglés")
+    print("F = Francés")
+    print("A = Alemán")
+    print("Y = Italiano")
+    print("P = Portugués")
+    print("(X para cerrar el programa)")
+    print("")
+    
+    # Obtener selección del usuario
+    tcl = input("Escribe una opción: ")
+    tcl = tcl.upper()  # Convertir a mayúsculas
+    print("")
+    
+    # Diccionario con códigos de idiomas
+    idi = {
+        "I": ["en", "Inglés"],
+        "F": ["fr", "Francés"],
+        "A": ["de", "Alemán"],
+        "P": ["pt", "Portugués"],
+        "Y": ["it", "Italiano"]
+    }
+    
+    # Validar y traducir
+    if tcl in idi:
+        c = idi[tcl][0]  # Código de idioma
+        n = idi[tcl][1]  # Nombre del idioma
+        
+        # Realizar traducción
+        tr = GoogleTranslator(source="auto", target=c).translate(t)
+        print("La respuesta es:", tr)
+        
+    elif tcl == "X":
+        exit()  # Salir del programa
+        
+    else:
+        print("Opción no válida")
+
+# Bucle principal
+while True:
+    traductor()
+                    </pre>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>📚 Funciones y Conceptos</h3>
+
+                <div class="glosario-item">
+                    <h4>GoogleTranslator(source, target)</h4>
+                    <p>Clase principal de la librería deep-translator que permite traducir texto entre diferentes idiomas usando el motor de Google Translate.</p>
+                    <div class="info-box">
+                        <strong>Parámetros:</strong><br>
+                        • <code>source</code> - Idioma de origen ("auto" para detección automática)<br>
+                        • <code>target</code> - Código del idioma de destino (ej: "en", "fr", "de")
+                    </div>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>.translate(texto)</h4>
+                    <p>Método que ejecuta la traducción del texto proporcionado al idioma objetivo.</p>
+                    <div class="code-container" style="margin-top: 10px;">
+                        <pre>
+# Ejemplo básico
+traductor = GoogleTranslator(source="auto", target="en")
+resultado = traductor.translate("Hola mundo")
+print(resultado)  # "Hello world"
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>str.upper()</h4>
+                    <p>Convierte una cadena de texto a mayúsculas. Útil para normalizar la entrada del usuario y evitar errores por mayúsculas/minúsculas.</p>
+                    <div class="code-container" style="margin-top: 10px;">
+                        <pre>
+tcl = "i"
+tcl = tcl.upper()  # "I"
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>Diccionarios en Python</h4>
+                    <p>Estructura de datos que almacena pares clave-valor. En este caso, mapea letras a códigos y nombres de idiomas.</p>
+                    <table class="dict-table">
+                        <tr>
+                            <th>Clave</th>
+                            <th>Valor [código, nombre]</th>
+                        </tr>
+                        <tr>
+                            <td>"I"</td>
+                            <td>["en", "Inglés"]</td>
+                        </tr>
+                        <tr>
+                            <td>"F"</td>
+                            <td>["fr", "Francés"]</td>
+                        </tr>
+                        <tr>
+                            <td>"A"</td>
+                            <td>["de", "Alemán"]</td>
+                        </tr>
+                        <tr>
+                            <td>"P"</td>
+                            <td>["pt", "Portugués"]</td>
+                        </tr>
+                        <tr>
+                            <td>"Y"</td>
+                            <td>["it", "Italiano"]</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>Operador "in" para Diccionarios</h4>
+                    <p>Verifica si una clave existe en el diccionario. Retorna True si existe, False si no.</p>
+                    <div class="code-container" style="margin-top: 10px;">
+                        <pre>
+if "I" in idi:
+    print("Clave encontrada")  # Se ejecuta
+if "Z" in idi:
+    print("No se ejecuta")  # No existe la clave
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>exit()</h4>
+                    <p>Función que termina la ejecución del programa inmediatamente.</p>
+                    <div class="warning-box">
+                        <strong>Nota:</strong><br>
+                        Usar <code>exit()</code> dentro de un bucle infinito es la forma correcta de terminar el programa cuando el usuario lo solicita.
+                    </div>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>while True:</h4>
+                    <p>Crea un bucle infinito que se ejecuta continuamente hasta que se llame a <code>exit()</code> o se use <code>break</code>.</p>
+                    <div class="info-box">
+                        <strong>Aplicación:</strong><br>
+                        Permite que el usuario haga múltiples traducciones sin reiniciar el programa.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>🎯 Ejemplo de Uso</h3>
+                <div class="glosario-item">
+                    <h4>Ejecución del Programa</h4>
+                    <div class="code-container">
+                        <pre>
+================
+Traductor Simple
+================
+
+Escribe el texto que desees traducir: Hola mundo
+
+Presiona una de las teclas para seleccionar la opción
+I = Inglés
+F = Francés
+A = Alemán
+Y = Italiano
+P = Portugués
+(X para cerrar el programa)
+
+Escribe una opción: i
+
+La respuesta es: Hello world
+                        </pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>⚙️ Instalación de deep-translator</h3>
+                <div class="code-container">
+                    <pre>
+# Instalar la librería
+pip install deep-translator
+
+# Verificar instalación
+python -c "from deep_translator import GoogleTranslator; print('¡Instalado!')"
+                    </pre>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>🔧 Funciones Adicionales de deep-translator</h3>
+
+                <div class="glosario-item">
+                    <h4>Detectar Idioma</h4>
+                    <div class="code-container">
+                        <pre>
+from deep_translator import single_detection
+
+idioma = single_detection("Hola mundo", api_key="tu_api_key")
+print(idioma)  # "es"
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>Traducir Lista de Textos</h4>
+                    <div class="code-container">
+                        <pre>
+from deep_translator import GoogleTranslator
+
+textos = ["Hola", "Adiós", "Gracias"]
+traductor = GoogleTranslator(source="auto", target="en")
+
+for texto in textos:
+    traduccion = traductor.translate(texto)
+    print(f"{texto} → {traduccion}")
+    
+# Salida:
+# Hola → Hello
+# Adiós → Goodbye
+# Gracias → Thank you
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>Obtener Idiomas Disponibles</h4>
+                    <div class="code-container">
+                        <pre>
+from deep_translator import GoogleTranslator
+
+idiomas = GoogleTranslator.get_supported_languages()
+print(f"Total de idiomas: {len(idiomas)}")
+print(idiomas[:10])  # Mostrar primeros 10
+                        </pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>💡 Mejoras Sugeridas</h3>
+
+                <div class="glosario-item">
+                    <h4>Versión Mejorada con Manejo de Errores</h4>
+                    <div class="code-container">
+                        <pre>
+from deep_translator import GoogleTranslator
+
+def traductor_mejorado():
+    try:
+        print("=== TRADUCTOR ===")
+        texto = input("Texto: ").strip()
+        
+        if not texto:
+            print("❌ Error: El texto está vacío")
+            return
+        
+        print("\nIdiomas: I, F, A, Y, P (X=salir)")
+        opcion = input("Opción: ").upper()
+        
+        idiomas = {
+            "I": ["en", "Inglés"],
+            "F": ["fr", "Francés"],
+            "A": ["de", "Alemán"],
+            "P": ["pt", "Portugués"],
+            "Y": ["it", "Italiano"]
+        }
+        
+        if opcion == "X":
+            print("👋 ¡Hasta luego!")
+            exit()
+        
+        if opcion in idiomas:
+            codigo, nombre = idiomas[opcion]
+            traductor = GoogleTranslator(source="auto", target=codigo)
+            resultado = traductor.translate(texto)
+            print(f"\n✓ {nombre}: {resultado}")
+        else:
+            print("❌ Opción no válida")
+            
+    except Exception as e:
+        print(f"❌ Error: {str(e)}")
+
+while True:
+    traductor_mejorado()
+    print("\n" + "="*40 + "\n")
+                        </pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>⚠️ Consideraciones Importantes</h3>
+
+                <div class="glosario-item">
+                    <h4>Conexión a Internet</h4>
+                    <p>La librería deep-translator requiere conexión a internet activa para funcionar, ya que usa la API de Google Translate.</p>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>Límites de Uso</h4>
+                    <p>Google Translate tiene límites de caracteres y solicitudes. Para uso intensivo, considera usar una API key oficial.</p>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>Detección Automática</h4>
+                    <p>El parámetro <code>source="auto"</code> permite que el traductor detecte automáticamente el idioma de origen, haciendo el programa más flexible.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>🎯 Aplicaciones Prácticas</h3>
+                <div class="glosario-item">
+                    <ul style="margin-left: 20px; color: #4a5568; line-height: 1.8;">
+                        <li><strong>🌐 Chatbots Multiidioma:</strong> Traducir mensajes en tiempo real</li>
+                        <li><strong>📧 Email Internacional:</strong> Traducir correos automáticamente</li>
+                        <li><strong>📱 Apps de Viaje:</strong> Asistencia en comunicación turística</li>
+                        <li><strong>📚 Herramientas Educativas:</strong> Aprender idiomas con traducciones</li>
+                        <li><strong>🛒 E-commerce:</strong> Traducir descripciones de productos</li>
+                        <li><strong>📰 Análisis de Contenido:</strong> Procesar textos en múltiples idiomas</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
