@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú de Procesamiento de Texto</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .back-button {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-bottom: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .content-wrapper {
+            background: #f5f5f5;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .tema-titulo {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .tema-titulo h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .tema-titulo p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .section h3 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .code-container {
+            background: #2d3748;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-x: auto;
+            margin-top: 15px;
+        }
+
+        .code-container pre {
+            margin: 0;
+            color: #e2e8f0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .glosario-item {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glosario-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .glosario-item h4 {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .glosario-item p {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .menu-demo {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            padding: 30px;
+            border-radius: 15px;
+            color: white;
+            font-family: 'Courier New', monospace;
+            margin: 20px 0;
+            border: 3px solid #667eea;
+        }
+
+        .menu-demo h4 {
+            color: #60a5fa;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            text-align: center;
+        }
+
+        .menu-option {
+            background: #475569;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .menu-option:hover {
+            background: #667eea;
+            transform: translateX(5px);
+        }
+
+        .option-number {
+            background: #667eea;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            flex-shrink: 0;
+        }
+
+        .option-icon {
+            font-size: 2em;
+            flex-shrink: 0;
+        }
+
+        .option-text {
+            flex-grow: 1;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .module-card {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            padding: 25px;
+            border-radius: 12px;
+            border: 2px solid #667eea;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .module-card .icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .module-card h5 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #60a5fa;
+        }
+
+        .module-card p {
+            font-size: 0.9em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .module-card .file {
+            background: #475569;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        .info-box {
+            background: #e0e7ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .info-box strong {
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .comparison-table th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e7ff;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #f7fafc;
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .tema-titulo h2 {
+                font-size: 1.5em;
+            }
+
+            .section h3 {
+                font-size: 1.5em;
+            }
+
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-button">← Volver al Catálogo</a>
+        
+        <div class="header">
+            <h1>Realizado por: Ian Martin Aguilar Alejo</h1>
+            <p>Especialidad de IA del CBTIS 144</p>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="tema-titulo">
+                <h2>📝 Menú de Procesamiento de Texto</h2>
+                <p>Suite completa de NLP y traducción automática</p>
+            </div>
+
+            <div class="section">
+                <h3>🎯 Interfaz del Menú</h3>
+                <div class="menu-demo">
+                    <h4>=== Procesamiento de Texto ===</h4>
+                    <div class="menu-option">
+                        <div class="option-number">1</div>
+                        <div class="option-icon">🌐</div>
+                        <div class="option-text">Traductor de Tres Idiomas</div>
+                    </div>
+                    <div class="menu-option">
+                        <div class="option-number">2</div>
+                        <div class="option-icon">🗣️</div>
+                        <div class="option-text">Práctica de Traductor</div>
+                    </div>
+                    <div class="menu-option">
+                        <div class="option-number">3</div>
+                        <div class="option-icon">🔄</div>
+                        <div class="option-text">Traductor de Ambos</div>
+                    </div>
+                    <div class="menu-option">
+                        <div class="option-number">4</div>
+                        <div class="option-icon">🧹</div>
+                        <div class="option-text">Preprocesamiento</div>
+                    </div>
+                    <div class="menu-option">
+                        <div class="option-number">5</div>
+                        <div class="option-icon">📚</div>
+                        <div class="option-text">Librería TextBlob</div>
+                    </div>
+                    <div class="menu-option">
+                        <div class="option-number">6</div>
+                        <div class="option-icon">❌</div>
+                        <div class="option-text">Salir</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>📦 Módulos del Sistema NLP</h3>
+                <div class="modules-grid">
+                    <div class="module-card">
+                        <div class="icon">🌐</div>
+                        <h5>Traductor de Tres Idiomas</h5>
+                        <p>Sistema especializado que traduce texto a inglés, francés y alemán simultáneamente</p>
+                        <div class="file">tresidiomas.py</div>
+                    </div>
+                    <div class="module-card">
+                        <div class="icon">🗣️</div>
+                        <h5>Práctica de Traductor</h5>
+                        <p>Módulo educativo para practicar traducción con diferentes motores y comparar resultados</p>
+                        <div class="file">practicadetraductor.py</div>
+                    </div>
+                    <div class="module-card">
+                        <div class="icon">🔄</div>
+                        <h5>Traductor de Ambos</h5>
+                        <p>Traducción bidireccional que convierte texto entre dos idiomas en ambas direcciones</p>
+                        <div class="file">traductordeambos.py</div>
+                    </div>
+                    <div class="module-card">
+                        <div class="icon">🧹</div>
+                        <h5>Preprocesamiento</h5>
+                        <p>Limpieza y normalización de texto: tokenización, eliminación de stopwords, stemming</p>
+                        <div class="file">preprocesamiento.py</div>
+                    </div>
+                    <div class="module-card">
+                        <div class="icon">📚</div>
+                        <h5>Librería TextBlob</h5>
+                        <p>Análisis de sentimientos, corrección ortográfica y procesamiento avanzado de lenguaje natural</p>
+                        <div class="file">libreriatextbloob.py</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>📝 Código del Ejemplo</h3>
+                <div class="code-container">
+                    <pre>
+import cv2
+
+def todoln():
+    # Importar funciones desde módulos de NLP
+    from tresidiomas import tresidiomasa
+    from practicadetraductor import traductors
+    from traductordeambos import ambostraductor
+    from preprocesamiento import prepros
+    from libreriatextbloob import textbloob
+    
+    while True:
+        # Mostrar menú de procesamiento de texto
+        print("=== Procesamiento de Texto ===")
+        print("1. Traductor de Tres Idiomas")
+        print("2. Práctica de Traductor")
+        print("3. Traductor de Ambos")
+        print("4. Preprocesamiento")
+        print("5. Librería TextBlob")
+        print("6. Salir")
+        
+        op = input("Selecciona una opción: ")
+        
+        if op == '1':
+            print("Ejecutando traductor de tres idiomas...")
+            tresidiomasa()
+            
+        elif op == '2':
+            print("Ejecutando práctica de traductor...")
+            traductors()
+            
+        elif op == '3':
+            print("Ejecutando traductor bidireccional...")
+            ambostraductor()
+            
+        elif op == '4':
+            print("Ejecutando preprocesamiento de texto...")
+            prepros()
+            
+        elif op == '5':
+            print("Ejecutando TextBlob...")
+            textbloob()
+            
+        elif op == '6':
+            print("Saliendo del programa...")
+            break
+            
+        else:
+            print("❌ Opción no válida. Intenta de nuevo.")
+
+# Punto de entrada del programa
+if __name__ == '__main__':
+    todoln()
+    cv2.destroyAllWindows()
+                    </pre>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>📚 Descripción de Módulos</h3>
+
+                <div class="glosario-item">
+                    <h4>1. Traductor de Tres Idiomas</h4>
+                    <p>Módulo especializado que toma un texto y lo traduce automáticamente a tres idiomas principales: inglés, francés y alemán.</p>
+                    <div class="info-box">
+                        <strong>Funcionalidad:</strong><br>
+                        • Traduce texto de forma simultánea<br>
+                        • Muestra resultados comparativos<br>
+                        • Útil para documentación multiidioma<br>
+                        • Ideal para sitios web internacionales
+                    </div>
+                    <div class="code-container" style="margin-top: 10px;">
+                        <pre>
+# Ejemplo de uso del módulo
+from tresidiomas import tresidiomasa
+
+# Llamar la función
+tresidiomasa()
+
+# Entrada: "Hola mundo"
+# Salida:
+# Inglés: "Hello world"
+# Francés: "Bonjour le monde"
+# Alemán: "Hallo Welt"
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>2. Práctica de Traductor</h4>
+                    <p>Módulo educativo diseñado para aprender y comparar diferentes métodos de traducción.</p>
+                    <div class="info-box">
+                        <strong>Características:</strong><br>
+                        • Compara múltiples motores de traducción<br>
+                        • Evalúa precisión de traducciones<br>
+                        • Herramienta de aprendizaje<br>
+                        • Permite experimentar con APIs diferentes
+                    </div>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>3. Traductor de Ambos</h4>
+                    <p>Sistema de traducción bidireccional que permite convertir texto en ambas direcciones entre dos idiomas.</p>
+                    <div class="info-box">
+                        <strong>Aplicaciones:</strong><br>
+                        • Conversaciones bilingües<br>
+                        • Verificación de traducciones<br>
+                        • Chat internacional<br>
+                        • Aprendizaje de idiomas
+                    </div>
+                    <div class="code-container" style="margin-top: 10px;">
+                        <pre>
+# Ejemplo conceptual
+Español → Inglés: "Hola" → "Hello"
+Inglés → Español: "Hello" → "Hola"
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>4. Preprocesamiento</h4>
+                    <p>Módulo fundamental de NLP que limpia y normaliza texto antes del análisis o entrenamiento de modelos.</p>
+                    <div class="info-box">
+                        <strong>Operaciones típicas:</strong><br>
+                        • <strong>Tokenización:</strong> Dividir texto en palabras<br>
+                        • <strong>Eliminación de stopwords:</strong> Quitar palabras comunes (el, la, de, etc.)<br>
+                        • <strong>Stemming:</strong> Reducir palabras a su raíz (corriendo → corr)<br>
+                        • <strong>Lemmatización:</strong> Obtener forma base (corriendo → correr)<br>
+                        • <strong>Normalización:</strong> Convertir a minúsculas, quitar acentos<br>
+                        • <strong>Limpieza:</strong> Eliminar caracteres especiales y números
+                    </div>
+                    <div class="code-container" style="margin-top: 10px;">
+                        <pre>
+# Ejemplo de preprocesamiento
+Texto original: "¡Los GATOS están corriendo rápidamente!"
+
+Después de preprocesamiento:
+1. Minúsculas: "los gatos están corriendo rápidamente"
+2. Sin acentos: "los gatos estan corriendo rapidamente"
+3. Tokenización: ["los", "gatos", "estan", "corriendo", "rapidamente"]
+4. Sin stopwords: ["gatos", "corriendo", "rapidamente"]
+5. Stemming: ["gat", "corr", "rapid"]
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="glosario-item">
+                    <h4>5. Librería TextBlob</h4>
+                    <p>Implementación de TextBlob para análisis avanzado de texto con procesamiento de lenguaje natural.</p>
+                    <div class="info-box">
+                        <strong>Capacidades:</strong><br>
+                        • <strong>Análisis de Sentimientos:</strong> Detectar emociones (positivo/negativo)<br>
+                        • <strong>Corrección Ortográfica:</strong> Corregir errores de escritura<br>
+                        • <strong>Extracción de Frases:</strong> Identificar frases nominales<br>
+                        • <strong>Traducción:</strong> Traducir entre idiomas<br>
+                        • <strong>POS Tagging:</strong> Identificar partes de la oración<br>
+                        • <strong>Subjetividad:</strong> Medir qué tan objetivo/subjetivo es un texto
+                    </div>
+                    <div class="code-container" style="margin-top: 10px;">
+                        <pre>
+from textblob import TextBlob
+
+# Análisis de sentimientos
+texto = TextBlob("Este producto es excelente!")
+print(f"Polaridad: {texto.sentiment.polarity}")  # 0.9 (muy positivo)
+print(f"Subjetividad: {texto.sentiment.subjectivity}")  # 0.75
+
+# Corrección ortográfica
+texto_error = TextBlob("Holaa munddo")
+print(texto_error.correct())  # "Hola mundo"
+                        </pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>🔄 Comparación de Funcionalidades</h3>
+                <table class="comparison-table">
+                    <tr>
+                        <th>Módulo</th>
+                        <th>Función Principal</th>
+                        <th>Caso de Uso</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Tres Idiomas</strong></td>
+                        <td>Traducción múltiple simultánea</td>
+                        <td>Documentación internacional</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Práctica Traductor</strong></td>
+                        <td>Comparar motores de traducción</td>
+                        <td>Evaluación de calidad</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Traductor Ambos</strong></td>
+                        <td>Traducción bidireccional</td>
+                        <td>Chat multilingüe</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Preprocesamiento</strong></td>
+                        <td>Limpieza y normalización</td>
+                        <td>Preparación para ML</td>
+                    </tr>
+                    <tr>
+                        <td><strong>TextBlob</strong></td>
+                        <td>Análisis de sentimientos</td>
+                        <td>Monitoreo de opiniones</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="section">
+                <h3>⚙️ Estructura del Proyecto</h3>
+                <div class="code-container">
+                    <pre>
+proyecto_nlp/
+│
+├── main.py                      # Menú principal
+│
+├── tresidiomas.py               # Traductor triple
+│   └── def tresidiomasa():
+│       └── Traduce a 3 idiomas
+│
+├── practicadetraductor.py       # Práctica de traducción
+│   └── def traductors():
+│       └── Compara traductores
+│
+├── traductordeambos.py          # Traductor bidireccional
+│   └── def ambostraductor():
+│       └── Traduce en ambas direcciones
+│
+├── preprocesamiento.py          # Limpieza de texto
+│   └── def prepros():
+│       └── Tokenización, stopwords, stemming
+│
+├── libreriatextbloob.py         # Análisis con TextBlob
+│   └── def textbloob():
+│       └── Sentimientos, corrección, NLP
+│
+└── datos/                       # Archivos de texto
+    ├── textos_ejemplo.txt
+    └── corpus_entrenamiento.txt
+                    </pre>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>💡 Aplicaciones del Sistema</h3>
+
+                <div class="glosario-item">
+                    <h4>Casos de Uso Profesionales</h4>
+                    <ul style="margin-left: 20px; color: #4a5568; line-height: 1.8;">
+                        <li><strong>📱 Redes Sociales:</strong> Análisis de sentimientos en comentarios y posts</li>
+                        <li><strong>🛒 E-commerce:</strong> Traducir descripciones de productos automáticamente</li>
+                        <li><strong>📧 Atención al Cliente:</strong> Clasificar y traducir tickets de soporte</li>
+                        <li><strong>📰 Análisis de Noticias:</strong> Procesar y traducir artículos internacionales</li>
+                        <li><strong>🤖 Chatbots:</strong> Preprocesar consultas de usuarios multilingües</li>
+                        <li><strong>📊 Business Intelligence:</strong> Analizar feedback de clientes en diferentes idiomas</li>
+                        <li><strong>🎓 Educación:</strong> Herramientas de aprendizaje de idiomas</li>
+                        <li><strong>🔍 SEO:</strong> Traducir contenido web para mercados internacionales</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>🔧 Versión Mejorada del Menú</h3>
+                <div class="code-container">
+                    <pre>
+import cv2
+
+def todoln():
+    print("\n" + "="*50)
+    print("   SISTEMA DE PROCESAMIENTO DE TEXTO NLP")
+    print("="*50 + "\n")
+    
+    while True:
+        try:
+            print("\n📝 MENÚ PRINCIPAL - NLP:")
+            print("  1. 🌐 Traductor de Tres Idiomas")
+            print("  2. 🗣️  Práctica de Traductor")
+            print("  3. 🔄 Traductor Bidireccional")
+            print("  4. 🧹 Preprocesamiento de Texto")
+            print("  5. 📚 Análisis con TextBlob")
+            print("  6. ❌ Salir")
+            print("-" * 50)
+            
+            op = input("➤ Selecciona una opción (1-6): ").strip()
+            
+            if op == '1':
+                print("\n🔹 Iniciando traductor de tres idiomas...")
+                try:
+                    from tresidiomas import tresidiomasa
+                    tresidiomasa()
+                    print("✅ Traducción completada")
+                except ImportError:
+                    print("❌ Error: Módulo tresidiomas.py no encontrado")
+                except Exception as e:
+                    print(f"❌ Error: {e}")
+                    
+            elif op == '2':
+                print("\n🔹 Iniciando práctica de traductor...")
+                try:
+                    from practicadetraductor import traductors
+                    traductors()
+                    print("✅ Práctica completada")
+                except ImportError:
+                    print("❌ Error: Módulo practicadetraductor.py no encontrado")
+                except Exception as e:
+                    print(f"❌ Error: {e}")
+                    
+            elif op == '3':
+                print("\n🔹 Iniciando traductor bidireccional...")
+                try:
+                    from traductordeambos import ambostraductor
+                    ambostraductor()
+                    print("✅ Traducción bidireccional completada")
+                except ImportError:
+                    print("❌ Error: Módulo traductordeambos.py no encontrado")
+                except Exception as e:
+                    print(f"❌ Error: {e}")
+                    
+            elif op == '4':
+                print("\n🔹 Iniciando preprocesamiento...")
+                try:
+                    from preprocesamiento import prepros
+                    prepros()
+                    print("✅ Preprocesamiento completado")
+                except ImportError:
+                    print("❌ Error: Módulo preprocesamiento.py no encontrado")
+                except Exception as e:
+                    print(f"❌ Error: {e}")
+                    
+            elif op == '5':
+                print("\n🔹 Iniciando análisis con TextBlob...")
+                try:
+                    from libreriatextbloob import textbloob
+                    textbloob()
+                    print("✅ Análisis completado")
+                except ImportError:
+                    print("❌ Error: Módulo libreriatextbloob.py no encontrado")
+                except Exception as e:
+                    print(f"❌ Error: {e}")
+                    
+            elif op == '6':
+                print("\n👋 Saliendo del sistema NLP...")
+                print("¡Hasta luego!\n")
+                break
+                
+            else:
+                print("\n⚠️  Opción no válida. Elige entre 1 y 6.")
+                
+        except KeyboardInterrupt:
+            print("\n\n⚠️  Interrupción detectada. Saliendo...")
+            break
+        except Exception as e:
+            print(f"\n❌ Error inesperado: {e}")
+
+if __name__ == '__main__':
+    try:
+        todoln()
+    finally:
+        cv2.destroyAllWindows()
+        print("\n✓ Sistema cerrado correctamente")
+                    </pre>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>⚠️ Consideraciones Importantes</h3>
+
+                <div class="glosario-item">
+                    <h4>Dependencias Necesarias</h4>
+                    <div class="code-container">
+                        <pre>
+# Instalar librerías necesarias
+pip install deep-translator
+pip install textblob
+pip install nltk
+pip install opencv-python
+
+# Descargar recursos de NLTK
+import nltk
+nltk.download('punkt')
