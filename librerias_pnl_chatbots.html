@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Librerías de PNL para Chat Bots</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+      color: #e0e6ed;
+      min-height: 100vh;
+    }
+
+    /* Portada (Simplificada para página de contenido) */
+    .hero {
+      min-height: 30vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+      background: linear-gradient(135deg, #0f1425 0%, #1e2a4a 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -1px;
+    }
+
+    .author {
+      font-size: clamp(1rem, 3vw, 1.3rem);
+      color: #94a3b8;
+      margin-top: 1rem;
+      font-weight: 300;
+    }
+
+    .author span {
+      color: #60a5fa;
+      font-weight: 500;
+    }
+
+    /* Catálogo/Contenido */
+    .catalog {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+
+    .catalog-title {
+      text-align: center;
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin-bottom: 3rem;
+      color: #e0e6ed;
+    }
+
+    .content-section {
+        margin-bottom: 3rem;
+        padding: 2rem;
+        background: rgba(30, 41, 59, 0.6);
+        border-radius: 16px;
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        backdrop-filter: blur(10px);
+    }
+
+    .content-section h3 {
+        font-size: 1.8rem;
+        color: #60a5fa;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid rgba(59, 130, 246, 0.4);
+        padding-bottom: 0.5rem;
+    }
+
+    .content-section p {
+        color: #94a3b8;
+        line-height: 1.7;
+        margin-bottom: 1rem;
+    }
+
+    .content-section ul {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .content-section li {
+        background: rgba(59, 130, 246, 0.1);
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        border-left: 4px solid #3b82f6;
+        transition: background 0.3s ease;
+    }
+
+    .content-section li:hover {
+        background: rgba(59, 130, 246, 0.2);
+    }
+
+    .content-section li strong {
+        color: #e0e6ed;
+        font-size: 1.1rem;
+        display: block;
+        margin-bottom: 0.3rem;
+    }
+
+    .back-link {
+        display: inline-block;
+        margin-top: 2rem;
+        font-size: 1.1rem;
+        color: #3b82f6;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border: 1px solid #3b82f6;
+        border-radius: 8px;
+        transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .back-link:hover {
+        background: #3b82f6;
+        color: #0a0e27;
+    }
+
+    @media (max-width: 768px) {
+      .catalog {
+        padding: 3rem 1.5rem;
+      }
+      .content-section {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Librerías de PNL para Chat Bots</h1>
+      <p class="author">Clasificación y Herramientas Esenciales</p>
+    </div>
+  </section>
+
+  <section class="catalog">
+    <a href="index.html" class="back-link">← Volver al Catálogo</a>
+    <h2 class="catalog-title">Clasificación de Librerías</h2>
+
+    <!-- Chatbots con PLN -->
+    <div class="content-section">
+      <h3>1. Chatbots con PLN (Procesamiento de Lenguaje Natural)</h3>
+      <p>Estas librerías se centran en las tareas fundamentales del PNL, como la tokenización, el análisis sintáctico y la clasificación de texto, esenciales para que un chatbot entienda el lenguaje humano.</p>
+      <ul>
+        <li>
+          <strong>NLTK (Natural Language Toolkit)</strong>
+          <p>La biblioteca más popular y completa para la investigación y la enseñanza de PNL. Ideal para tareas básicas y experimentación.</p>
+        </li>
+        <li>
+          <strong>spaCy</strong>
+          <p>Diseñada para ser eficiente y lista para producción. Ofrece modelos pre-entrenados para tareas como el reconocimiento de entidades nombradas (NER) y el análisis de dependencias.</p>
+        </li>
+        <li>
+          <strong>ChatterBot</strong>
+          <p>Una biblioteca de Python específicamente para generar chatbots. Utiliza una selección de algoritmos para producir respuestas, lo que facilita la creación de bots conversacionales básicos.</p>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Chatbots con IA -->
+    <div class="content-section">
+      <h3>2. Chatbots con IA (Inteligencia Artificial)</h3>
+      <p>Estos frameworks y plataformas van más allá del PNL básico, incorporando modelos de aprendizaje automático y profundo para manejar diálogos contextuales, intenciones complejas y gestión de estados.</p>
+      <ul>
+        <li>
+          <strong>Rasa</strong>
+          <p>Framework de código abierto para construir asistentes de IA contextuales. Incluye componentes para NLU y gestión de diálogos, permitiendo bots sofisticados y personalizados.</p>
+        </li>
+        <li>
+          <strong>Google Dialogflow</strong>
+          <p>Plataforma de Google para crear interfaces conversacionales. Permite definir intenciones, entidades y flujos de diálogo de manera intuitiva, integrándose fácilmente con múltiples canales.</p>
+        </li>
+        <li>
+          <strong>IBM Watson Assistant</strong>
+          <p>Solución empresarial que utiliza IA para construir asistentes virtuales. Destaca por su robustez en entornos corporativos y su capacidad para manejar preguntas complejas.</p>
+        </li>
+        <li>
+          <strong>TensorFlow / PyTorch</strong>
+          <p>Frameworks de aprendizaje profundo utilizados para construir modelos de IA conversacional a medida, especialmente para NLU avanzado y generación de lenguaje (LLMs).</p>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Chatbots conectados a plataformas -->
+    <div class="content-section">
+      <h3>3. Chatbots conectados a plataformas (WhatsApp, Discord, etc.)</h3>
+      <p>Estas herramientas son esenciales para conectar la lógica del chatbot (creada con PLN/IA) a los canales de comunicación populares, manejando la API específica de cada plataforma.</p>
+      <ul>
+        <li>
+          <strong>Twilio (para WhatsApp)</strong>
+          <p>Plataforma común utilizada para enviar y recibir mensajes de WhatsApp, a menudo combinada con frameworks web de Python (Flask/Django) para procesar la lógica del bot.</p>
+        </li>
+        <li>
+          <strong>discord.py / disnake / hikari</strong>
+          <p>Wrappers de Python muy populares y ricos en funciones para interactuar con la API de Discord, permitiendo la creación de bots de servidor complejos.</p>
+        </li>
+        <li>
+          <strong>APIs de Proveedores (Whapi.Cloud, Green-API)</strong>
+          <p>Servicios que ofrecen APIs específicas para la integración de WhatsApp, simplificando el manejo de la comunicación oficial.</p>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Chatbots en Páginas Web -->
+    <div class="content-section">
+      <h3>4. Chatbots en Páginas Web</h3>
+      <p>Estas librerías se centran en la interfaz de usuario (UI) del chatbot, facilitando su incrustación y la interacción visual dentro de un sitio web.</p>
+      <ul>
+        <li>
+          <strong>NLUX (React)</strong>
+          <p>Conjunto de componentes de React diseñados para construir interfaces de chatbot modernas y conectarlas a modelos de lenguaje grandes (LLMs).</p>
+        </li>
+        <li>
+          <strong>chatbot-widget-ui (React.js)</strong>
+          <p>Una biblioteca de React.js para crear un widget de interfaz de usuario de chatbot altamente personalizable, ideal para integraciones rápidas.</p>
+        </li>
+        <li>
+          <strong>DHTMLX Chatbot (JavaScript)</strong>
+          <p>Un widget de JavaScript con licencia MIT para crear la interfaz de usuario de un chatbot, compatible con cualquier backend de IA.</p>
+        </li>
+      </ul>
+    </div>
+    <a href="index.html" class="back-link">← Volver al Catálogo</a>
+  </section>
+</body>
+</html>
